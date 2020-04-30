@@ -37,6 +37,11 @@ using namespace opendnp3;
 
 int main(int argc, char* argv[])
 {
+        string outstationAddress = "127.0.0.1";
+        if(argc>=2){
+	  outstationAddress = argv[1];
+	}
+
 	// Specify what log levels to use. NORMAL is warning and above
 	// You can add all the comms logging by uncommenting below
 	const uint32_t FILTERS = levels::NORMAL | levels::ALL_APP_COMMS;
@@ -45,7 +50,7 @@ int main(int argc, char* argv[])
 	DNP3Manager manager(1, ConsoleLogger::Create());
 
 	// Connect via a TCPClient socket to a outstation
-	auto channel = manager.AddTCPClient("tcpclient", FILTERS, ChannelRetry::Default(), { IPEndpoint("127.0.0.1", 20000) }, "0.0.0.0", PrintingChannelListener::Create());
+	auto channel = manager.AddTCPClient("tcpclient", FILTERS, ChannelRetry::Default(), { IPEndpoint(outstationAddress, 20000) }, "0.0.0.0", PrintingChannelListener::Create());
 
 	// The master config object for a master. The default are
 	// useable, but understanding the options are important.
